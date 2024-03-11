@@ -75,4 +75,8 @@ html {
     width: 25px;
     height: 25px;
   }
+
+  .container {
+    padding: 0 10px; /* 양 옆에 10px의 패딩을 추가 */
+  }
 }
