@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }, 3000);
 
   currentPhoto.addEventListener('click', function () {
-    // 인덱스 저장/복원 로직은 변경 없음
     if (darkMode) {
       lastIndexDark = currentIndex;
       currentIndex = lastIndexLight;
@@ -38,9 +37,22 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   function applyTheme() {
-    // 배경색과 글자색 변경 로직을 별도의 함수로 분리
     body.style.backgroundColor = darkMode ? 'black' : '';
     body.style.color = darkMode ? 'white' : '';
+    overlay.style.display = 'flex';
+    overlay.style.backgroundColor = darkMode ? 'black' : 'white';
+    overlay.style.opacity = '1';
+    // 다크 모드 활성화 시 텍스트 표시, 비활성화 시 텍스트 제거
+    overlay.textContent = darkMode ? 'Welcome to 689photo' : ''; // 조건에 따른 텍스트 변경
+
+    setTimeout(() => {
+      overlay.style.opacity = '0';
+      overlay.addEventListener('transitionend', () => {
+        if (overlay.style.opacity === '0') {
+          overlay.style.display = 'none';
+        }
+      });
+    }, 500); // 페이드 인/아웃 속도 조절 가능
   }
 
   function updatePhoto() {
@@ -48,13 +60,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const newImg = new Image();
     newImg.src = images[currentIndex];
     newImg.onload = function () {
-      // 이미지 로드 완료 후, 페이드 아웃 시작
       currentPhoto.style.opacity = '0';
-      // 페이드 아웃 완료 후 이미지 교체 및 페이드 인 처리
       setTimeout(() => {
         currentPhoto.src = newImg.src;
         currentPhoto.style.opacity = '1';
-      }, 200); // CSS에서 정의한 transition 시간과 일치하거나 그보다 짧게 설정
+      }, 200);
     };
   }
 
