@@ -9,11 +9,6 @@ html {
   flex-direction: column; /* 내용물을 세로로 나열 */
 }
 
-/* 배경색과 텍스트 색상의 전환 효과 설정 */
-body {
-  transition: background-color 0.5s ease, color 0.5s ease; /* 배경색과 텍스트 색상이 부드럽게 전환되도록 설정 */
-}
-
 /* 중앙에 위치할 컨테이너 설정 */
 .container {
   display: flex; /* Flexbox 모델 적용 */
@@ -34,7 +29,7 @@ body {
 .slider img {
   width: 100%; /* 이미지 너비를 슬라이더의 너비와 동일하게 설정 */
   display: block; /* 이미지를 블록 요소로 설정 */
-  transition: opacity 2s ease-in-out; /* 투명도 변경 시 부드러운 전환 효과 적용 */
+  transition: opacity 1s ease-in-out; /* 투명도 변경 시 부드러운 전환 효과 적용 */
 }
 
 /* 페이지 상단의 제목 스타일 설정 */
