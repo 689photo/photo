@@ -8,6 +8,10 @@ html {
   flex-direction: column;
 }
 
+body {
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
 .container {
   display: flex;
   flex-direction: column;
