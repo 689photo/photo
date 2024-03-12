@@ -85,6 +85,12 @@ body {
 
 @media (max-width: 768px) {
   .head,
+  .overlay,
+  .instagram-link {
+    text-align: center; /* 텍스트와 인스타그램 버튼 가운데 정렬 */
+  }
+
+  .head,
   .overlay {
     font-size: 18px;
   }
