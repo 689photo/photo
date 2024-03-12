@@ -1,4 +1,3 @@
-// 문서 로드 완료 후 실행되는 초기화 함수
 document.addEventListener('DOMContentLoaded', function () {
   const overlay = document.getElementById('overlay');
   const body = document.querySelector('body');
@@ -15,8 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
   ];
   const darkImages = ['black1.jpg', 'black2.jpg', 'black3.jpg', 'black4.jpg', 'black5.jpg'];
 
-  // 현재 표시 중인 이미지의 인덱스를 모드별로 저장
-  let currentIndex = 0;
+  let currentIndex = 0; // 현재 표시 중인 이미지의 인덱스
   let lastIndexLight = 0;
   let lastIndexDark = 0;
 
@@ -25,36 +23,41 @@ document.addEventListener('DOMContentLoaded', function () {
     overlay.addEventListener('transitionend', () => (overlay.style.display = 'none'));
   }, 3000);
 
-  // 이미지 클릭 시 다크 모드 토글 및 현재 사진 인덱스 저장/복원
   currentPhoto.addEventListener('click', function () {
+    // 인덱스 저장/복원 로직은 변경 없음
     if (darkMode) {
-      lastIndexDark = currentIndex; // 다크 모드를 떠나면서 현재 인덱스 저장
-      currentIndex = lastIndexLight; // 라이트 모드로 전환 시 마지막 인덱스 복원
+      lastIndexDark = currentIndex;
+      currentIndex = lastIndexLight;
     } else {
-      lastIndexLight = currentIndex; // 라이트 모드를 떠나면서 현재 인덱스 저장
-      currentIndex = lastIndexDark; // 다크 모드로 전환 시 마지막 인덱스 복원
+      lastIndexLight = currentIndex;
+      currentIndex = lastIndexDark;
     }
     darkMode = !darkMode;
-
-    // 다크 모드에 따른 배경색과 글자색 업데이트
-    body.style.backgroundColor = darkMode ? 'black' : '';
-    body.style.color = darkMode ? 'white' : '';
-
+    applyTheme(); // 배경과 텍스트 색상을 적용하는 함수 호출
     updatePhoto();
   });
 
-  // 현재 이미지를 업데이트하는 함수
-  function updatePhoto() {
-    const images = darkMode ? darkImages : lightImages;
-    const img = new Image();
-    img.onload = function () {
-      currentPhoto.src = this.src;
-      currentPhoto.style.opacity = '1';
-    };
-    img.src = images[currentIndex];
+  function applyTheme() {
+    // 배경색과 글자색 변경 로직을 별도의 함수로 분리
+    body.style.backgroundColor = darkMode ? 'black' : '';
+    body.style.color = darkMode ? 'white' : '';
   }
 
-  // 현재 이미지를 다음 이미지로 변경하는 함수
+  function updatePhoto() {
+    const images = darkMode ? darkImages : lightImages;
+    const newImg = new Image();
+    newImg.src = images[currentIndex];
+    newImg.onload = function () {
+      // 이미지 로드 완료 후, 페이드 아웃 시작
+      currentPhoto.style.opacity = '0';
+      // 페이드 아웃 완료 후 이미지 교체 및 페이드 인 처리
+      setTimeout(() => {
+        currentPhoto.src = newImg.src;
+        currentPhoto.style.opacity = '1';
+      }, 200); // CSS에서 정의한 transition 시간과 일치하거나 그보다 짧게 설정
+    };
+  }
+
   function changePhoto() {
     currentPhoto.style.opacity = '0';
     setTimeout(() => {
@@ -63,6 +66,5 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 1000);
   }
 
-  // 자동으로 이미지를 변경하는 타이머 설정
   setInterval(changePhoto, 5000);
 });
