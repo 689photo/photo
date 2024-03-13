@@ -35,7 +35,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function applyDarkMode() {
     document.body.classList.toggle('dark-mode', darkMode);
-    overlay.textContent = darkMode ? 'Dark Mode ON' : 'Welcome to 689photo';
   }
 
   function updatePhoto() {
